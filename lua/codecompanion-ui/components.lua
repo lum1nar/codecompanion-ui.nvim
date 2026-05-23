@@ -14,6 +14,25 @@ local M = {}
 ---@field display_names? table<string, string> Rename modes for display
 ---@field icons? table<string, string> Icons per mode id
 
+---@param chat CodeCompanion.Chat
+---@param opt string
+local function get_option(chat, opt)
+  if not chat.acp_connection or not chat.acp_connection._find_config_option then
+    return nil
+  end
+
+  local opt_value = chat.acp_connection:_find_config_option(opt)
+  if not opt_value then
+    return nil
+  end
+  local current_value = opt_value.currentValue or ''
+  local options = chat.acp_connection.flatten_config_options(opt_value.options or {})
+  -- validate that the option is a valid value
+  return vim.iter(options):find(function(o)
+    return o.value == current_value
+  end)
+end
+
 ---For ACP adapters, show the agent mode
 ---@param chat CodeCompanion.Chat
 ---@param _ CcuiSession
@@ -22,16 +41,10 @@ local M = {}
 function M.mode(chat, _, opts)
   local mode_name = 'Plan Mode'
   local mode_id = 'plan'
-  if chat.acp_connection and chat.acp_connection._modes then
-    local modes = chat.acp_connection._modes
-    local current_id = modes and modes.currentModeId or ''
-    local mode_info = vim.iter(modes and modes.availableModes or {}):find(function(m)
-      return m.id == current_id
-    end)
-    if mode_info then
-      mode_name = mode_info.name
-      mode_id = mode_info.id
-    end
+  local mode = get_option(chat, 'mode')
+  if mode then
+    mode_name = mode.name
+    mode_id = mode.value
   end
 
   local display_names = opts.display_names or {}
@@ -65,15 +78,9 @@ function M.model(chat, _)
   local name = ''
 
   -- ACP adapter
-  if chat.acp_connection and chat.acp_connection._models then
-    local models = chat.acp_connection._models
-    local current_id = models and models.currentModelId or ''
-    for _, model in ipairs(models and models.availableModels or {}) do
-      if model.modelId == current_id then
-        name = model.name
-        break
-      end
-    end
+  local model = get_option(chat, 'model')
+  if model then
+    name = model.name
   end
 
   -- HTTP adapter

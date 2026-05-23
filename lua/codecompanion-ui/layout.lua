@@ -113,7 +113,11 @@ function M.attach(chat_bufnr, chat_id)
           if manager.attached(chat_bufnr) then
             md.render({ buf = chat_bufnr, win = chat_winid })
           end
-          if session.input_bufnr and manager.attached(session.input_bufnr) and vim.api.nvim_win_is_valid(session.input_winid) then
+          if
+            session.input_bufnr
+            and manager.attached(session.input_bufnr)
+            and vim.api.nvim_win_is_valid(session.input_winid)
+          then
             md.render({ buf = session.input_bufnr, win = session.input_winid })
           end
         end
