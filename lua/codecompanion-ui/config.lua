@@ -1,5 +1,7 @@
 local M = {}
 
+---@module 'codecompanion-ui.components'
+
 ---@class CcuiConfig
 ---@field input CcuiConfig.Input
 ---@field chat CcuiConfig.Chat

@@ -1,5 +1,7 @@
 local M = {}
 
+---@module 'codecompanion'
+
 ---@class CcuiComponentResult
 ---@field text string
 ---@field hl? string Highlight group name
