@@ -39,8 +39,8 @@ end
 ---@param opts CcuiComponentOpts.Mode
 ---@return CcuiComponentReturn
 function M.mode(chat, _, opts)
-  local mode_name = 'Plan Mode'
-  local mode_id = 'plan'
+  local mode_name = ''
+  local mode_id = ''
   local mode = get_option(chat, 'mode')
   if mode then
     mode_name = mode.name
@@ -50,6 +50,11 @@ function M.mode(chat, _, opts)
   local display_names = opts.display_names or {}
   if display_names[mode_name] then
     mode_name = display_names[mode_name]
+  end
+
+  if mode_name == '' then
+    mode_name = 'Default'
+    mode_id = 'default'
   end
 
   local icons = opts.icons or {}

@@ -36,7 +36,9 @@ local defaults = {
         icons = {
           default = '󰺴',
           acceptEdits = '󱐋',
+          auto = '󱐋',
           plan = '󰙬',
+          ['read-only'] = '󰙬',
           dontAsk = '󰝟',
           bypassPermissions = '',
         },
