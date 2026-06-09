@@ -92,7 +92,8 @@ function M.model(chat, _)
   if name == '' and chat.adapter and chat.adapter.model then
     local raw = chat.adapter.model.name
     local choices = chat.adapter.schema and chat.adapter.schema.model and chat.adapter.schema.model.choices
-    if choices and choices[raw] and choices[raw].formatted_name then
+
+    if choices and type(choices) == 'table' and choices[raw] and choices[raw].formatted_name then
       name = choices[raw].formatted_name
     else
       name = raw or ''
