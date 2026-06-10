@@ -33,7 +33,7 @@ return {
       -- optional, but highly recommended
       -- `render-markdown.nvim` will auto-attach to lazy.nvim `ft` filetypes
       'MeanderingProgrammer/render-markdown.nvim',
-      ft = { 'codecompanion', 'codecompanion-ui' },
+      ft = { 'codecompanion', 'codecompanion_input' },
     },
   },
   opts = {
